@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RailBook - Train Booking System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .search-section {
+            padding: 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 20px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .form-group input {
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .search-btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .booking-section {
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .booking-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .booking-form h3 {
+            margin-bottom: 25px;
+            color: #2c3e50;
+            text-align: center;
+            font-size: 1.5em;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .management-section {
+            padding: 40px;
+            background: #f8f9fa;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .management-section h3 {
+            margin-bottom: 25px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .management-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .mgmt-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mgmt-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 68, 173, 0.3);
+        }
+
+        .cancel-section {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .cancel-section h4 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .cancel-form {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .cancel-form input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .cancel-form input:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        .cancel-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        #result {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            white-space: pre-line;
+            font-family: 'Courier New', monospace;
+            min-height: 150px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            line-height: 1.6;
+        }
+
+        .result-header {
+            background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px 15px 0 0;
+            margin: -25px -25px 20px -25px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .instruction-card {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .instruction-card h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .instruction-card p {
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .train-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .train-card:hover {
+            border-color: #3498db;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(52, 152, 219, 0.2);
+        }
+
+        .train-card h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .train-card p {
+            color: #7f8c8d;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        .train-card .route {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.1em;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+        }
+
+        .cancel-modal-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .management-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cancel-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚆 RailBook</h1>
+            <p>Your Modern Train Booking Experience</p>
+        </div>
+
+        <div class="search-section">
+            <div class="instruction-card">
+                <h4>How to Book Your Train</h4>
+                <p>1. Enter your source and destination stations<br>
+                2. Search for available trains<br>
+                3. Click on your preferred train to book</p>
+            </div>
+            
+            <div class="booking-form">
+                <h3>🔍 Search Trains</h3>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="searchFrom">From Station</label>
+                        <input type="text" id="searchFrom" placeholder="e.g. Patna" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="searchTo">To Station</label>
+                        <input type="text" id="searchTo" placeholder="e.g. Delhi" required>
+                    </div>
+                </div>
+                
+                <button class="book-btn" onclick="searchTrains()">🔍 Search Trains</button>
+            </div>
+
+            <!-- Train Results Section -->
+            <div id="trainResults" style="display: none; margin-top: 30px;">
+                <h3 style="color: #2c3e50; margin-bottom: 20px;">Available Trains</h3>
+                <div id="trainsList"></div>
+            </div>
+        </div>
+
+        <div class="management-section">
+            <h3>🚉 Train Management</h3>
+            
+            <div class="management-buttons">
+                <button class="mgmt-btn" onclick="viewTrains()">🚉 View All Trains</button>
+                <button class="mgmt-btn" onclick="showPassengers()">👥 Show All Passengers</button>
+            </div>
+            
+            <div class="cancel-section">
+                <h4>Cancel Booking</h4>
+                <div class="cancel-form">
+                    <input type="number" id="pnr" placeholder="Enter PNR number to cancel">
+                    <button class="cancel-btn" onclick="cancelTicket()">❌ Cancel Ticket</button>
+                </div>
+            </div>
+            
+            <div id="result">
+                <div class="result-header">📋 System Output</div>
+                Click any button above to see the results here...
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <h3>🎫 Confirm Your Booking</h3>
+            <div id="selectedTrainDetails"></div>
+            <p style="margin: 20px 0; color: #7f8c8d; text-align: center;">Do you want to book this train?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm-btn" onclick="proceedToBooking()">Yes, Book This Train</button>
+                <button class="modal-btn cancel-modal-btn" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="userDetailsModal" class="modal">
+        <div class="modal-content">
+            <h3>👤 Enter Your Details</h3>
+            <div id="bookingTrainInfo" style="margin-bottom: 20px;"></div>
+            <div class="form-group">
+                <label for="passengerName">Full Name</label>
+                <input type="text" id="passengerName" placeholder="Enter your full name" required style="width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; margin-top: 5px;">
+            </div>
+            <div class="form-group">
+                <label for="passengerAge">Age</label>
+                <input type="number" id="passengerAge" placeholder="Enter your age" min="1" max="120" required style="width: 100%; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; margin-top: 5px;">
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm-btn" onclick="confirmBooking()">🎫 Book Ticket</button>
+                <button class="modal-btn cancel-modal-btn" onclick="closeUserDetailsModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedTrain = null;
+
+        function searchTrains() {
+            const from = document.getElementById('searchFrom').value.trim();
+            const to = document.getElementById('searchTo').value.trim();
+            
+            if (!from || !to) {
+                alert('Please enter both source and destination stations');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('result').innerHTML = '<div class="result-header">🔍 Searching Trains...</div>Searching for trains from ' + from + ' to ' + to + '...';
+
+            // Use the dedicated search endpoint that doesn't create bookings
+            fetch("http://localhost:18080/search", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    from: from,
+                    to: to
+                })
+            })
+            .then(res => res.text())
+            .then(response => {
+                const trainResults = document.getElementById('trainResults');
+                const trainsList = document.getElementById('trainsList');
+                
+                if (response.includes("No train available")) {
+                    // No train found for this route
+                    trainsList.innerHTML = '<div style="text-align: center; color: #e74c3c; padding: 20px;"><h4>❌ No trains found</h4><p>No trains available from ' + from + ' to ' + to + '</p></div>';
+                    trainResults.style.display = 'block';
+                    document.getElementById('result').innerHTML = '<div class="result-header">🚉 Search Results</div>No trains found for your route.';
+                } else {
+                    // Train found - response contains the train details
+                    trainsList.innerHTML = '';
+                    
+                    const trainCard = document.createElement('div');
+                    trainCard.className = 'train-card';
+                    trainCard.onclick = () => selectTrainForBooking(response, from, to);
+
+                    // Extract train name from format "TrainName (Source to Destination)"
+                    const trainName = response.split(' (')[0];
+
+                    trainCard.innerHTML = `
+                        <h4>🚄 ${trainName}</h4>
+                        <p class="route">${from} → ${to}</p>
+                        <p style="color: #27ae60; font-weight: bold; margin-top: 10px;">Click to Book →</p>
+                    `;
+
+                    trainsList.appendChild(trainCard);
+                    trainResults.style.display = 'block';
+                    document.getElementById('result').innerHTML = '<div class="result-header">🚉 Search Results</div>Found train from ' + from + ' to ' + to + '. Click on the train to book.';
+                }
+            })
+            .catch(err => {
+                document.getElementById('result').innerHTML = '<div class="result-header">❌ Error</div>Failed to search trains: ' + err;
+            });
+        }
+
+        function selectTrainForBooking(trainData, from, to) {
+            selectedTrain = { data: trainData, from: from, to: to };
+            
+            document.getElementById('selectedTrainDetails').innerHTML = `
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 10px 0;">
+                    <h4 style="color: #2c3e50; margin-bottom: 10px;">🚄 Selected Train</h4>
+                    <p><strong>Route:</strong> ${from} → ${to}</p>
+                    <p><strong>Details:</strong> ${trainData}</p>
+                </div>
+            `;
+            
+            document.getElementById('bookingModal').style.display = 'block';
+        }
+
+        function proceedToBooking() {
+            document.getElementById('bookingModal').style.display = 'none';
+            
+            document.getElementById('bookingTrainInfo').innerHTML = `
+                <div style="background: #e8f5e8; padding: 15px; border-radius: 10px; border: 2px solid #27ae60;">
+                    <h4 style="color: #27ae60; margin-bottom: 10px;">🚄 Booking Details</h4>
+                    <p><strong>Route:</strong> ${selectedTrain.from} → ${selectedTrain.to}</p>
+                    <p><strong>Train:</strong> ${selectedTrain.data}</p>
+                </div>
+            `;
+            
+            // Clear previous inputs
+            document.getElementById('passengerName').value = '';
+            document.getElementById('passengerAge').value = '';
+            
+            document.getElementById('userDetailsModal').style.display = 'block';
+        }
+
+        function confirmBooking() {
+            const name = document.getElementById('passengerName').value.trim();
+            const age = parseInt(document.getElementById('passengerAge').value);
+            
+            if (!name) {
+                alert('Please enter your name');
+                return;
+            }
+            
+            if (!age || age < 1 || age > 120) {
+                alert('Please enter a valid age');
+                return;
+            }
+
+            // Close modal
+            document.getElementById('userDetailsModal').style.display = 'none';
+            
+            // Show booking in progress
+            document.getElementById('result').innerHTML = '<div class="result-header">🎫 Booking in Progress...</div>Processing your booking request...';
+
+            fetch("http://localhost:18080/book", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    from: selectedTrain.from, 
+                    to: selectedTrain.to, 
+                    name: name, 
+                    age: age 
+                })
+            })
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('result').innerHTML = '<div class="result-header">🎫 Booking Confirmed!</div>' + data;
+                // Clear search results
+                document.getElementById('trainResults').style.display = 'none';
+                // Clear search fields
+                document.getElementById('searchFrom').value = '';
+                document.getElementById('searchTo').value = '';
+            })
+            .catch(err => {
+                document.getElementById('result').innerHTML = '<div class="result-header">❌ Booking Failed</div>Error: ' + err;
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        function closeUserDetailsModal() {
+            document.getElementById('userDetailsModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const bookingModal = document.getElementById('bookingModal');
+            const userDetailsModal = document.getElementById('userDetailsModal');
+            if (event.target === bookingModal) {
+                bookingModal.style.display = 'none';
+            }
+            if (event.target === userDetailsModal) {
+                userDetailsModal.style.display = 'none';
+            }
+        }
+
+        // Keep existing functions for management
+        function showPassengers() {
+            fetch("http://localhost:18080/passengers")
+                .then(res => res.text())
+                .then(data => document.getElementById('result').innerHTML = '<div class="result-header">👥 All Passengers</div>' + data);
+        }
+
+        function viewTrains() {
+            fetch("http://localhost:18080/trains")
+                .then(res => res.text())
+                .then(data => document.getElementById('result').innerHTML = '<div class="result-header">🚉 All Trains</div>' + data);
+        }
+
+        function cancelTicket() {
+            const pnr = parseInt(document.getElementById('pnr').value);
+            if (isNaN(pnr)) {
+                alert("Please enter a valid PNR number.");
+                return;
+            }
+
+            fetch("http://localhost:18080/cancel", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ pnr })
+            })
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById('result').innerHTML = '<div class="result-header">❌ Cancellation Result</div>' + data;
+                document.getElementById('pnr').value = '';
+            })
+            .catch(err => alert("Error: " + err));
+        }
+    </script>
+</body>
+</html>
